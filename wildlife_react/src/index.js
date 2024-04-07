@@ -3,12 +3,29 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+// Create a custom theme
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#4CAF50', // A shade of green
+    },
+    secondary: {
+      main: '#8BC34A', // Another shade of green
+    },
+    // You can also customize other theme aspects like typography
+  },
+  // Add other theme customizations here
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </ThemeProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
