@@ -19,7 +19,7 @@ function ImageCard({ image, onDelete }) {
     <Card>
       <CardMedia
         component="img"
-        height="140"
+        
         image={image.url}
         alt={image.title}
       />

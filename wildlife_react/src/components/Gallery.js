@@ -1,35 +1,37 @@
-// Gallery.js
 import React, { useEffect, useState } from 'react';
 import ImageGrid from './ImageGrid';
 import VideoGrid from './VideoGrid';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Container from '@mui/material/Container';
 
 function Gallery() {
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
 
   const fetchImages = () => {
-    // Fetch images
     fetch('http://localhost:5000/api/images')
       .then(response => response.json())
       .then(data => {
         const imageData = data.map(filename => ({
           url: `/images/${filename}`,
-          title: filename, // Assuming you use 'title' in ImageCard for alt text or captions
+          title: filename,
         }));
         setImages(imageData);
       })
       .catch(error => console.error("Failed to fetch images:", error));
-      
   };
 
   const fetchVideos = () => {
-    // Fetch videos
     fetch('http://localhost:5000/api/videos')
     .then(response => response.json())
       .then(data => {
           const videoData = data.map(filename => ({
           url: `/videos/${filename}`,
-          title: filename, // Assuming you use 'title' in VideoCard for alt text or captions
+          title: filename,
         }));
         setVideos(videoData);
       })
@@ -39,24 +41,43 @@ function Gallery() {
   useEffect(() => {
     fetchImages();
     fetchVideos(); 
-    }, []);
-    console.log(ImageGrid);
+  }, []);
     
-    console.log(VideoGrid);
+  const handleDeleteImage = () => {
+    fetchImages(); // Re-fetch images after one is deleted
+  };
     
-    const handleDeleteImage = () => {
-      fetchImages(); // Re-fetch images after one is deleted
-    };
-    
-    const handleDeleteVideo = () => {
-      fetchVideos(); // Re-fetch videos after one is deleted
-    };
+  const handleDeleteVideo = () => {
+    fetchVideos(); // Re-fetch videos after one is deleted
+  };
 
-    return (
-    <div>
-      <ImageGrid images={images} onDelete={handleDeleteImage} />
-      <VideoGrid videos={videos} onDelete={handleDeleteVideo} />
-    </div>
+  return (
+    <Container maxWidth="xlg" style={{ marginTop: '20px' }}>
+      <Accordion defaultExpanded sx={{ mb: 2 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>Images</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <ImageGrid images={images} onDelete={handleDeleteImage} />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion defaultExpanded sx={{ mb: 2 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography>Videos</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <VideoGrid videos={videos} onDelete={handleDeleteVideo} />
+        </AccordionDetails>
+      </Accordion>
+    </Container>
   );
 }
 
