@@ -4,42 +4,50 @@ import { Box, Button, Container, Typography } from '@mui/material';
 function HeroSection() {
   return (
     <Box
-      sx={(theme) => ({
+      sx={{
         width: '100%',
-        backgroundImage: `linear-gradient(to bottom, ${theme.palette.primary.dark}, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
+        height: { xs: 'auto', md: '80vh' },
+        backgroundImage: 'url("hero-pic.png")',
         backgroundSize: 'cover',
+        backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        height: 'auto',
-        paddingBottom: '2rem',
-      })}
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
     >
       <Container
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          pt: { xs: 14, sm: 20 },
-          pb: { xs: 8, sm: 12 },
+          zIndex: 1,
+          color: 'common.white',
+          textAlign: 'center',
+          py: { xs: 8, md: 12 },
         }}
       >
-        <Typography variant="h2" sx={{ mb: 4, textAlign: 'center', fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>
+        <Typography variant="h1" gutterBottom>
           Smart Wildlife Monitoring Camera
         </Typography>
-        <Typography variant="h5" sx={{ mb: 4, textAlign: 'center', color: 'text.secondary' }}>
+        <Typography variant="h5" gutterBottom>
           Your window to the wild.
         </Typography>
-        <Button variant="contained" color="primary" sx={{ marginBottom: '2rem' }}>
+        <Button variant="contained" color="primary" size="large" sx={{ mt: 4 }}>
           Learn More
         </Button>
       </Container>
       <Box
         sx={{
-          mt: 4,
-          height: 300,
-          backgroundImage: 'url("hero-pic.png")',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 0,
         }}
       />
     </Box>
