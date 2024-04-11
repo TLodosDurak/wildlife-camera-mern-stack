@@ -13,6 +13,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 
 // TODO remove, this demo shouldn't need to reset the theme.
@@ -28,6 +29,8 @@ export default function LoginPage() {
       password: data.get('password'),
     });
   };
+  let navigate = useNavigate();
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -103,7 +106,7 @@ export default function LoginPage() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="#" variant="body2" onClick={() => navigate('/signup')}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
