@@ -5,9 +5,16 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
-
 export default function NavBar() {
   let navigate = useNavigate();
+
+  // Function to handle logout (for example)
+  const handleLogout = () => {
+    // Perform logout operations here
+    console.log('Logout');
+    // Redirect to home or login page
+    navigate('/');
+  };
 
   return (
     <AppBar position="static" sx={{ flexGrow: 1 }}>
@@ -15,8 +22,21 @@ export default function NavBar() {
         <Typography variant="h6" sx={{ flexGrow: 1 }} onClick={() => navigate('/')}>
           Wildlife Media Gallery
         </Typography>
-        <Button color="inherit" onClick={() => navigate('/dashboard')}>Dashboard</Button>
-        {/* Add more navigation buttons as needed */}
+
+        {/* Dashboard Button with outline */}
+        <Button variant="outlined" color="inherit" sx={{ margin: '0 8px' }} onClick={() => navigate('/dashboard')}>
+          Dashboard
+        </Button>
+
+        {/* Register Devices Button with outline */}
+        <Button variant="outlined" color="inherit" sx={{ margin: '0 8px' }} onClick={() => navigate('/register-devices')}>
+          Register Devices
+        </Button>
+
+        {/* Example Logout Button - Replace with actual functionality and added outline */}
+        <Button variant="outlined" color="inherit" sx={{ margin: '0 8px' }} onClick={handleLogout}>
+          Logout
+        </Button>
       </Toolbar>
     </AppBar>
   );
