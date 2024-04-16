@@ -15,7 +15,6 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-console.log(supabase);  // This should log the Supabase client object
 
 
 
