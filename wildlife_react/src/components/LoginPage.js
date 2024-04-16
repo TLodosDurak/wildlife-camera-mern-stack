@@ -14,21 +14,38 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
+console.log(supabase);  // This should log the Supabase client object
 
 
-// TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function LoginPage() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    try {
+      const { email, password } = {
+        email: data.get('email'),
+        password: data.get('password'),
+      };
+  
+      const { user, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+  
+      if (error) throw error;
+      console.log('User logged in:', user);  // Log the user object
+      navigate('/dashboard'); // Redirect on success
+    } catch (err) {
+      console.error('Error logging in:', err.message);
+    }
   };
+  
+  
+  
   let navigate = useNavigate();
 
 

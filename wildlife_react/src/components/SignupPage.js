@@ -13,20 +13,24 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 
 
 const defaultTheme = createTheme();
 
 export default function SignupPage() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const { user, error } = await supabase.auth.signUp({
       email: data.get('email'),
       password: data.get('password'),
     });
+  
+    if (error) console.error('Error signing up:', error.message);
+    else navigate('/dashboard'); // Redirect on success
   };
-
+  
   let navigate = useNavigate();
 
   return (
@@ -49,27 +53,6 @@ export default function SignupPage() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
