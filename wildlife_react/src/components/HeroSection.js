@@ -1,7 +1,9 @@
 import React from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function HeroSection() {
+  let navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -35,7 +37,7 @@ function HeroSection() {
         <Typography variant="h5" gutterBottom>
           Your window to the wild.
         </Typography>
-        <Button variant="contained" color="primary" size="large" sx={{ mt: 4 }}>
+        <Button variant="contained" color="primary" size="large" onClick={() => navigate('/learn-more')} sx={{ mt: 4 }}>
           Learn More
         </Button>
       </Container>
