@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { supabase } from '../supabaseClient'; // Correct path
 import ImageGrid from './ImageGrid';
 import VideoGrid from './VideoGrid';
 import Accordion from '@mui/material/Accordion';
@@ -12,69 +13,78 @@ function Gallery() {
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
 
-  const fetchImages = () => {
-    fetch('http://localhost:5000/api/images')
-      .then(response => response.json())
-      .then(data => {
-        const imageData = data.map(filename => ({
-          url: `/images/${filename}`,
-          title: filename,
-        }));
-        setImages(imageData);
-      })
-      .catch(error => console.error("Failed to fetch images:", error));
+  const fetchFiles = async () => {
+    let { data: userDevices, error: userDevicesError } = await supabase
+      .from('registered_devices')
+      .select('user_uuid');
+    
+    if (userDevicesError) {
+      console.error('Error fetching user devices:', userDevicesError);
+      return;
+    }
+
+    const userUuids = userDevices.map(device => device.user_uuid);
+
+    let { data: files, error: filesError } = await supabase
+      .from('files')
+      .select('*')
+      .in('user_uuid', userUuids);
+
+    if (filesError) {
+      console.error('Error fetching files:', filesError);
+      return;
+    }
+
+    // Filter image and video files and generate public URLs
+    const images = files.filter(file => file.file_path.endsWith('.jpg') || file.file_path.endsWith('.png'));
+    const videos = files.filter(file => file.file_path.endsWith('.mp4'));
+
+    const imageUrls = await Promise.all(images.map(async file => ({
+      url: supabase.storage.from('gallery').getPublicUrl(file.file_name).publicURL,
+      title: file.file_name,
+      filePath: file.file_path
+    })));
+
+    const videoUrls = await Promise.all(videos.map(async file => ({
+      url: supabase.storage.from('gallery').getPublicUrl(file.file_name).publicURL,
+      title: file.file_name,
+      filePath: file.file_path
+    })));
+
+    setImages(imageUrls);
+    setVideos(videoUrls);
   };
 
-  const fetchVideos = () => {
-    fetch('http://localhost:5000/api/videos')
-    .then(response => response.json())
-      .then(data => {
-          const videoData = data.map(filename => ({
-          url: `/videos/${filename}`,
-          title: filename,
-        }));
-        setVideos(videoData);
-      })
-      .catch(error => console.error("Failed to fetch videos:", error));
-  };
-  
   useEffect(() => {
-    fetchImages();
-    fetchVideos(); 
+    fetchFiles();
   }, []);
-    
-  const handleDeleteImage = () => {
-    fetchImages(); // Re-fetch images after one is deleted
-  };
-    
-  const handleDeleteVideo = () => {
-    fetchVideos(); // Re-fetch videos after one is deleted
+
+  const handleDeleteFile = async (filePath, fileType) => {
+    const { error } = await supabase.storage.from('gallery').remove([filePath]);
+
+    if (error) {
+      console.error(`Failed to delete ${fileType}:`, error);
+    } else {
+      fetchFiles(); // Re-fetch files after deletion
+    }
   };
 
   return (
     <Container maxWidth="xlg" style={{ marginTop: '20px' }}>
       <Accordion defaultExpanded sx={{ mb: 2 }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
           <Typography>Images</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ImageGrid images={images} onDelete={handleDeleteImage} />
+          <ImageGrid images={images} onDelete={(filePath) => handleDeleteFile(filePath, 'image')} />
         </AccordionDetails>
       </Accordion>
       <Accordion defaultExpanded sx={{ mb: 2 }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel2a-content" id="panel2a-header">
           <Typography>Videos</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <VideoGrid videos={videos} onDelete={handleDeleteVideo} />
+          <VideoGrid videos={videos} onDelete={(filePath) => handleDeleteFile(filePath, 'video')} />
         </AccordionDetails>
       </Accordion>
     </Container>

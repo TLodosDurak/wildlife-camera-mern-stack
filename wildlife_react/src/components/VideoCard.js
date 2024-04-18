@@ -1,5 +1,5 @@
-// VideoCard.js
 import React from 'react';
+import { supabase } from '../supabaseClient'; // Ensure correct path
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -7,13 +7,17 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 function VideoCard({ video, onDelete }) {
-  const handleDelete = () => {
-    fetch(`http://localhost:5000/api/videos/${video.title}`, { method: 'DELETE' })
-      .then((response) => {
-        if (response.ok) {
-          onDelete(); // Trigger a refresh in the parent component
-        }
-      });
+  const handleDelete = async () => {
+    // Remove the file directly using the title, no folder prefix
+    const { error } = await supabase.storage
+      .from('gallery')
+      .remove([video.title]);
+
+    if (error) {
+      console.error('Error deleting video:', error);
+    } else {
+      onDelete(); // Trigger a refresh in the parent component
+    }
   };
 
   return (
@@ -35,5 +39,5 @@ function VideoCard({ video, onDelete }) {
     </Card>
   );
 }
-export default VideoCard
 
+export default VideoCard;
