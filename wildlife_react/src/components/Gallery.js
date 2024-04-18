@@ -39,17 +39,26 @@ function Gallery() {
     const images = files.filter(file => file.file_path.endsWith('.jpg') || file.file_path.endsWith('.png'));
     const videos = files.filter(file => file.file_path.endsWith('.mp4'));
 
-    const imageUrls = await Promise.all(images.map(async file => ({
-      url: supabase.storage.from('gallery').getPublicUrl(file.file_name).publicURL,
-      title: file.file_name,
-      filePath: file.file_path
-    })));
-
-    const videoUrls = await Promise.all(videos.map(async file => ({
-      url: supabase.storage.from('gallery').getPublicUrl(file.file_name).publicURL,
-      title: file.file_name,
-      filePath: file.file_path
-    })));
+    const imageUrls = await Promise.all(images.map(async file => {
+      const basePath = 'https://qllnugzhykrexkdvxflq.supabase.co/storage/v1/object/public/gallery/';
+      const url = basePath + file.file_name; // Manually construct the correct URL
+      return {
+        url, // Use the manually constructed URL
+        title: file.file_name,
+        filePath: file.file_path
+      };
+    }));
+    
+    const videoUrls = await Promise.all(videos.map(async file => {
+      const basePath = 'https://qllnugzhykrexkdvxflq.supabase.co/storage/v1/object/public/gallery/';
+      const url = basePath + file.file_name; // Manually construct the correct URL
+      return {
+        url, // Use the manually constructed URL
+        title: file.file_name,
+        filePath: file.file_path
+      };
+    }));
+    
 
     setImages(imageUrls);
     setVideos(videoUrls);
