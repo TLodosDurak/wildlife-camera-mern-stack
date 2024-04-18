@@ -5,7 +5,7 @@ const LearnMore = () => {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <p>
-                lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                This web app is where you can view the images collected by your camera.
             </p>
         </div>
     )
