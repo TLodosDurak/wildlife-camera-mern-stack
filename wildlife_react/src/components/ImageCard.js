@@ -18,6 +18,17 @@ function ImageCard({ image, onDelete }) {
       onDelete(); // Call the onDelete callback, which should trigger a refresh in the parent component
     }
   };
+  const deleteImage = async () => {
+    
+      // Delete the image from the 'Files' table based on some unique identifier, like 'id'
+      await supabase
+        .from('files')
+        .delete()
+        .eq('id', image.id); // Assuming 'id' is the unique identifier for the image
+
+      window.location = "http://localhost:3000/";
+    
+  };
 
   return (
     <Card>
@@ -27,7 +38,7 @@ function ImageCard({ image, onDelete }) {
         alt={image.title}
       />
       <CardActions>
-        <Button size="small" color="primary" onClick={handleDelete}>
+        <Button size="small" color="primary" onClick={deleteImage}>
           Delete
         </Button>
       </CardActions>
