@@ -1,9 +1,7 @@
 import React from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
-function HeroSection() {
-  let navigate = useNavigate();
+function HeroSection({ onLearnMoreClick }) {
   return (
     <Box
       sx={{
@@ -32,12 +30,12 @@ function HeroSection() {
         }}
       >
         <Typography variant="h1" gutterBottom>
-          Smart Wildlife Monitoring Camera
+          Smart <span style={{ color: '#4caf50', textShadow: '0 0 8px #fff' }}>Wildlife</span> Monitoring <span style={{ color: '#ff9800', textShadow: '0 0 8px #fff' }}>Camera</span>
         </Typography>
         <Typography variant="h5" gutterBottom>
           Your window to the wild.
         </Typography>
-        <Button variant="contained" color="primary" size="large" onClick={() => navigate('/learn-more')} sx={{ mt: 4 }}>
+        <Button variant="contained" color="primary" size="large" onClick={onLearnMoreClick} sx={{ mt: 4 }}>
           Learn More
         </Button>
       </Container>

@@ -36,7 +36,7 @@ export default function NavBar() {
   };
 
   return (
-    <AppBar position="static" sx={{ flexGrow: 1 }}>
+    <AppBar position="fixed" sx={{ flexGrow: 1, top: 0, width: '100%', zIndex: 1100}}> 
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }} onClick={() => navigate('/')}>
           Wildlife Media Gallery

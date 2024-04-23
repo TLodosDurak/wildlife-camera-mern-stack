@@ -1,20 +1,35 @@
 // In components/HomePage.js
-import React from 'react';
-import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import React, { useRef } from 'react';
 import HeroSection from './HeroSection';
-
+import Features from './Features';
+import TeamMembers from './TeamMembers';  // This was Testimonials, but renamed and repurposed
+import Highlights from './Highlights';
+import FAQ from './FAQ';
+import Footer from './Footer';
+import Divider from '@mui/material/Divider';
 
 function HomePage() {
-  let navigate = useNavigate();
+  const featuresRef = useRef(null);
 
+  const handleLearnMoreClick = () => {
+    if (featuresRef.current) {
+      featuresRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   return (
     <>
-    <HeroSection />
-    
-  </>
+      <HeroSection onLearnMoreClick={handleLearnMoreClick} />
+      <Divider />
+      <Features ref={featuresRef} />
+      <Divider />
+      <TeamMembers />
+      <Divider />
+      <Highlights />
+      <Divider />
+      <FAQ />
+      <Divider />
+      <Footer />
+    </>
   );
 }
 
