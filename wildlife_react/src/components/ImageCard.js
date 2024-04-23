@@ -18,6 +18,7 @@ function ImageCard({ image, onDelete }) {
       onDelete(); // Call the onDelete callback, which should trigger a refresh in the parent component
     }
   };
+ 
 
   return (
     <Card>
@@ -27,7 +28,7 @@ function ImageCard({ image, onDelete }) {
         alt={image.title}
       />
       <CardActions>
-        <Button size="small" color="primary" onClick={handleDelete}>
+        <Button size="small" color="primary" >
           Delete
         </Button>
       </CardActions>
