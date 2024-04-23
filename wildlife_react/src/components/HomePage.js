@@ -13,15 +13,7 @@ function HomePage() {
   return (
     <>
     <HeroSection />
-    <Container maxWidth="sm" style={{ textAlign: 'center', marginTop: '20vh', marginBottom: '50vh' }}>
-      <Typography variant="h2" gutterBottom>Welcome</Typography>
-      <Button variant="contained" color="primary" onClick={() => navigate('/login')} style={{ marginRight: '10px' }}>
-        Login
-      </Button>
-      <Button variant="contained" color="secondary" onClick={() => navigate('/signup')}>
-        Sign Up
-      </Button>
-    </Container>
+    
   </>
   );
 }

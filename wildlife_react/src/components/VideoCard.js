@@ -8,15 +8,17 @@ import Typography from '@mui/material/Typography';
 
 function VideoCard({ video, onDelete }) {
   const handleDelete = async () => {
-    // Remove the file directly using the title, no folder prefix
-    const { error } = await supabase.storage
-      .from('gallery')
-      .remove([video.title]);
+    const { error: deleteError } = await supabase.storage.from('gallery').remove([video.title]);
 
-    if (error) {
-      console.error('Error deleting video:', error);
+    if (deleteError) {
+      console.error('Error deleting video:', deleteError);
     } else {
-      onDelete(); // Trigger a refresh in the parent component
+      const { error: dbError } = await supabase.from('files').delete().match({ file_name: video.title });
+      if (dbError) {
+        console.error('Error removing metadata from database:', dbError);
+      } else {
+        onDelete(); // Trigger a refresh in the parent component
+      }
     }
   };
 

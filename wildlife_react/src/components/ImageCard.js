@@ -7,18 +7,19 @@ import Button from '@mui/material/Button';
 
 function ImageCard({ image, onDelete }) {
   const handleDelete = async () => {
-    // Remove the file directly using the title, no folder prefix
-    const { error } = await supabase.storage
-      .from('gallery')
-      .remove([image.title]);
+    const { error: deleteError } = await supabase.storage.from('gallery').remove([image.title]);
 
-    if (error) {
-      console.error('Error deleting image:', error);
+    if (deleteError) {
+      console.error('Error deleting image:', deleteError);
     } else {
-      onDelete(); // Call the onDelete callback, which should trigger a refresh in the parent component
+      const { error: dbError } = await supabase.from('files').delete().match({ file_name: image.title });
+      if (dbError) {
+        console.error('Error removing metadata from database:', dbError);
+      } else {
+        onDelete(); // Call the onDelete callback, which should trigger a refresh in the parent component
+      }
     }
   };
- 
 
   return (
     <Card>
@@ -28,7 +29,7 @@ function ImageCard({ image, onDelete }) {
         alt={image.title}
       />
       <CardActions>
-        <Button size="small" color="primary" >
+        <Button size="small" color="primary" onClick={handleDelete}>
           Delete
         </Button>
       </CardActions>
