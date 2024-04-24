@@ -9,18 +9,18 @@ import Grid from '@mui/material/Grid';
 
 const teamMembers = [
     {
-      avatar: '/static/images/avatar/SeanDenes.PNG',
-      name: 'Sean Denes',
-      occupation: 'Bluetooth & Data Transfer Specialist',
-      testimonial:
-        'As the specialist in Bluetooth and High Data-rate Transmission Protocol, I ensured robust data transfer capabilities for the project, alongside contributing to full-stack website development.',
-    },
-    {
       avatar: '/static/images/avatar/TemelDurak.png',
       name: 'Temel Lodos Durak',
       occupation: 'Project Manager',
       testimonial:
         'I led the project, managing both hardware and software aspects of the Camera Module, carrier node, and full-stack website development, ensuring seamless integration and functionality.',
+    },
+    {
+      avatar: '/static/images/avatar/SeanDenes.PNG',
+      name: 'Sean Denes',
+      occupation: 'Bluetooth & Data Transfer Specialist',
+      testimonial:
+        'As the specialist in Bluetooth and High Data-rate Transmission Protocol, I ensured robust data transfer capabilities for the project, alongside contributing to full-stack website development.',
     },
     {
       avatar: '/static/images/avatar/RaulMendy.png',
