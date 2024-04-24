@@ -37,7 +37,7 @@ function Gallery() {
 
     // Filter image and video files and generate public URLs
     const images = files.filter(file => file.file_path.endsWith('.jpg') || file.file_path.endsWith('.png') || file.file_path.endsWith('.jpeg'));
-    const videos = files.filter(file => file.file_path.endsWith('.mp4'));
+    const videos = files.filter(file => file.file_path.endsWith('.mp4') ||  file.file_path.endsWith('.h264'));
 
     const imageUrls = await Promise.all(images.map(async file => {
       const basePath = 'https://qllnugzhykrexkdvxflq.supabase.co/storage/v1/object/public/gallery/';
@@ -50,7 +50,7 @@ function Gallery() {
     }));
     
     const videoUrls = await Promise.all(videos.map(async file => {
-      const basePath = 'https://gitqllnugzhykrexkdvxflq.supabase.co/storage/v1/object/public/gallery/';
+      const basePath = 'https://qllnugzhykrexkdvxflq.supabase.co/storage/v1/object/public/gallery/';
       const url = basePath + file.file_name; // Manually construct the correct URL
       return {
         url, // Use the manually constructed URL
