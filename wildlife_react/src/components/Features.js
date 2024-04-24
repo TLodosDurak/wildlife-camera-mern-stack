@@ -81,8 +81,8 @@ const Features = React.forwardRef((props, ref) => {  // Here we use forwardRef t
           </Stack>
         </Grid>
         <Grid item xs={12} md={6} sx={{ display: 'flex', width: '100%' }}>
-          <Card variant="outlined" sx={{ height: '100%', width: '100%', pointerEvents: 'none' }}>
-            <Box sx={{ m: 'auto', width: 420, height: 500, backgroundSize: 'contain', backgroundImage: items[selectedItemIndex].image }} />
+          <Card variant="outlined" sx={{ height: '100%', width: '100%', pointerEvents: 'none' , display: "flex", justifyContent:'center', alignItems:'center'}}>
+            <Box sx={{ m: 'auto', width: 420, height: 500, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundImage: items[selectedItemIndex].image }} />
           </Card>
         </Grid>
       </Grid>
