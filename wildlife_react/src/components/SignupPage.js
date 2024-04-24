@@ -20,7 +20,7 @@ export default function SignupPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const { user, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: data.get('email'),
       password: data.get('password'),
     });
