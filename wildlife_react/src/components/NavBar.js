@@ -3,12 +3,13 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../supabaseClient';  // Ensure the path is correct
 
 export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   let navigate = useNavigate();
+  let location = useLocation();
 
   useEffect(() => {
     updateAuthStatus();
@@ -35,10 +36,18 @@ export default function NavBar() {
     }
   };
 
+  const handleTitleClick = () => {
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
+    }
+  };
+
   return (
     <AppBar position="fixed" sx={{ flexGrow: 1, top: 0, width: '100%', zIndex: 1100}}> 
       <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }} onClick={() => navigate('/')}>
+        <Typography variant="h6" sx={{ flexGrow: 1 }} onClick={handleTitleClick}>
           Wildlife Media Gallery
         </Typography>
 
