@@ -12,6 +12,7 @@
     "start": "cd wildlife_react && npm install && npm start"
   },
   "keywords": [],
+  "homepage": ".",
   "author": "",
   "license": "ISC",
   "description": ""
